@@ -1,0 +1,14 @@
+#security:
+#  user:
+#    name: xuconghui
+#    password: 123456
+#  basic:
+#    enabled: false
+spring:
+  thymeleaf:
+    content-type: text/html
+    encoding: UTF-8
+    mode: HTML5
+    suffix: .html
+    prefix: classpath:/templates/
+    cache: false 
