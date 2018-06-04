@@ -1,21 +1,69 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-<meta charset="UTF-8"/>
-<title>Insert title here</title>
+<meta charset="UTF-8" />
+<title>welcome!</title>
+<style type="text/css">
+table.gridtable {
+	font-family: verdana, arial, sans-serif;
+	font-size: 11px;
+	border-width: 1px;
+	border-collapse: collapse;
+}
+
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	background-color: #dedede;
+}
+
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+}
+
+tr:nth-child(odd) {
+	background: RGB(236, 236, 236);
+}
+</style>
 </head>
 <body>
-<h1>welcome!</h1>
-<h1>Hello Spring Security!</h1>
-Logged user:
-<span sec:authentication="name"></span>
-
-
-<li><a th:href="@{logout}">Log out</a ></li>
-  <li><a href=" " th:href="logout"><i
-          class="fa fa-sign-out"></i> 退出</a ></li>
-
+	<div>
+		<span align="left">
+			您好: <span sec:authentication="name"></span> &nbsp;&nbsp;&nbsp; 
+			您的身份是：
+			<span sec:authentication="principal.authorities"></span>
+		</span>
+		<span style="float:right">
+			<a th:href="logout"><i class="fa fa-sign-out"></i> 退出</a>
+		</span>
+	</div>
+	<div align="center">
+		<h1>展示用户</h1>
+		<table class="gridtable">
+			<thead>
+				<tr>
+					<th>姓名</th>
+					<th>年龄</th>
+					<th>性别</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user,userlist:${userlist}">
+					<td th:text="${user.loginName}" />
+					<td th:text="${user.age}" />
+					<td th:text="${user.sex}" />
+					<td>
+					<a th:href="@{'/delete?name='+${user.loginName}}">删除用户</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 
 </body>
 </html>

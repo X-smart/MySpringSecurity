@@ -14,7 +14,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -46,14 +45,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**"); // #3 不验证该路径下的请求，
+		web.ignoring().antMatchers("/resources/**"); // #3 不验证该路径下的请求，跳过所有的静态资源 css js
 	}
 
 //	@Override
 //	protected void configure(HttpSecurity http) throws Exception {
 //		http.csrf().disable();
 //		http
-//		// #4 不验证该请求 http请求的方式，跳过所有的静态资源 css js
+//		// #4 不验证该请求 http请求的方式
 //		.authorizeRequests().antMatchers("/signup", "/about").permitAll() 
 //				.antMatchers("/admin/**").hasRole("ADMIN") // #6 给相关角色相关的访问权限
 //				.anyRequest().authenticated() // #7 其余所有的url都需要登录
@@ -73,11 +72,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	 }
 
 	 protected void configure(HttpSecurity http) throws Exception {
-	  http.authorizeRequests().antMatchers("/login").permitAll()
+	  http.authorizeRequests().antMatchers("/login").permitAll() //解决重定向的问题
 	  .anyRequest().authenticated().and().formLogin().loginPage("/login")
 	    .and().httpBasic()
 	    .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 	    .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()); // 开启csrf的代码
-	  http.csrf().disable();
+	  http.csrf().disable();  // 关闭csrf的代码
 	 }
 }
